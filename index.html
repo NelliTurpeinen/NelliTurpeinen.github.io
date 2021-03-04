@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body { margin: 0 }
+        </style>
+    </head>
+    <body>
+        <canvas id="target"></canvas>
+        <script>
+            const canvas = document.getElementById("target");
+            const context = canvas.getContext("2d");
+
+            canvas.width = 672;
+            canvas.height = 744;
+
+
+            class GameObject {
+                constructor(startX, startY, width, height, speedX, speedY) {
+                    this.x = startX;
+                    this.y = startY;
+                    this.width = width;
+                    this.height = height;
+                    this.speedX = speedX;
+                    this.speedY = speedY;
+                }
+
+                update() {}
+
+                draw() {}
+            }
+
+            class Car extends GameObject {
+                constructor(startX, startY, width, height, speedX, speedY) {
+                    super(startX, startY, width, height, speedX, speedY);
+                }
+
+                update() {
+                    this.x = this.x + this.speedX;
+                    if(this.x <= -80) {
+                        this.x = 673;
+                    }
+                    if(this.x >= 674) {
+                        this.x = -71;
+                    }
+                }
+
+                draw() {
+                    context.beginPath();
+                    context.rect(this.x, this.y, this.width, this.height);
+                    context.fillStyle = "rgb(146, 32, 200)";
+                    context.fill();
+                    context.lineWidth = 1;
+                    context.strokeStyle = "rgb(146, 32, 200)";
+                    context.stroke();
+                }
+            }
+
+            class Log extends GameObject {
+                constructor(startX, startY, width, height, speedX, speedY) {
+                    super(startX, startY, width, height, speedX, speedY);
+                }
+
+                update() {
+                    this.x = this.x + this.speedX;
+                    if(this.x <= -100) {
+                        this.x = 673;
+                    }
+                    if(this.x >= 674) {
+                        this.x = -96;
+                    }
+                }
+
+                draw() {
+                    context.beginPath();
+                    context.rect(this.x, this.y, this.width, this.height);
+                    context.fillStyle = 'brown';
+                    context.fill();
+                    context.lineWidth = 1;
+                    context.strokeStyle = 'brown';
+                    context.stroke();
+                }
+            }
+
+            class Player extends GameObject {
+                constructor(startX, startY, width, height, speedX, speedY) {
+                    super(startX, startY, width, height, speedX, speedY);
+                }
+
+                moveUp() {
+                    this.y = this.y - this.speedY;
+                }
+
+                moveDown() {
+                    this.y = this.y + this.speedY;
+                }
+
+                moveLeft() {
+                    this.x = this.x - this.speedX;
+                }
+
+                moveRight() {
+                    this.x = this.x + this.speedX;
+                }
+
+                update() {
+                    if(((this.x + this.width) > car.x) &&
+                    (this.x < (car.x + car.width)) &&
+                    ((this.y + this.height) > car.y) &&
+                    (this.y < (car.y + car.height))) {
+                    console.log('Hit'); }
+
+                    if(((this.x + this.width) > car2.x) &&
+                    (this.x < (car2.x + car2.width)) &&
+                    ((this.y + this.height) > car2.y) &&
+                    (this.y < (car2.y + car2.height))) {
+                    console.log('Hit'); } 
+
+                    if(((this.x + this.width) > car3.x) &&
+                    (this.x < (car3.x + car3.width)) &&
+                    ((this.y + this.height) > car3.y) &&
+                    (this.y < (car3.y + car3.height))) {
+                    console.log('Hit'); } 
+
+                    if(((this.x + this.width) > car4.x) &&
+                    (this.x < (car4.x + car4.width)) &&
+                    ((this.y + this.height) > car4.y) &&
+                    (this.y < (car4.y + car4.height))) {
+                    console.log('Hit'); } 
+
+                    if(((this.x + this.width) > car5.x) &&
+                    (this.x < (car5.x + car5.width)) &&
+                    ((this.y + this.height) > car5.y) &&
+                    (this.y < (car5.y + car5.height))) {
+                    console.log('Hit'); } 
+                }
+
+                draw() {
+                    context.beginPath();
+                    context.rect(this.x, this.y, this.width, this.height);
+                    context.fillStyle = 'green';
+                    context.fill();
+                    context.lineWidth = 1;
+                    context.strokeStyle = 'green';
+                    context.stroke();
+                }
+
+            }
+
+            const player = new Player(300, 650, 48, 48, 50, 50);
+            const car = new Car(673, 600, 70, 48, -3, 0);
+            const car2 = new Car(-71, 550, 70, 48, 2, 0);
+            const car3 = new Car(673, 500, 70, 48, -2.5, 0);
+            const car4 = new Car(-71, 450, 70, 48, 3, 0);
+            const car5 = new Car(673, 400, 70, 48, -2, 0);
+            const log = new Log(-86, 300, 95, 48, 2, 0);
+            const log2 = new Log(673, 250, 95, 48, -2.5, 0);
+            const log3 = new Log(-86, 200, 95, 48, 3, 0);
+            const log4 = new Log(673, 150, 95, 48, -2.75, 0);
+            const log5 = new Log(-86, 100, 95, 48, 2, 0);
+            const gameObjectStorage = [];
+            gameObjectStorage.push(player);
+            gameObjectStorage.push(car);
+            gameObjectStorage.push(car2);
+            gameObjectStorage.push(car3);
+            gameObjectStorage.push(car4);
+            gameObjectStorage.push(car5);
+            gameObjectStorage.push(log);
+            gameObjectStorage.push(log2);
+            gameObjectStorage.push(log3);
+            gameObjectStorage.push(log4);
+            gameObjectStorage.push(log5);
+
+            function updateScreen() {
+
+                context.clearRect(0,0,canvas.width,canvas.height);
+
+                for(let i = 0; i < gameObjectStorage.length; i++) {
+                    gameObjectStorage[i].update();
+                    gameObjectStorage[i].draw();
+                }
+
+                
+                window.requestAnimationFrame(updateScreen);
+            }
+
+            window.requestAnimationFrame(updateScreen);
+
+            window.addEventListener('keydown', function(event){
+                switch(event.keyCode) {
+                    case 37:
+                        console.log('LEFT!');
+                        player.moveLeft();
+                        break;
+                    case 38:
+                        console.log('UP!');
+                        player.moveUp();
+                        break;
+                    case 39:
+                        console.log('RIGHT!');
+                        player.moveRight();
+                        break;
+                    case 40:
+                        console.log('DOWN!');
+                        player.moveDown();
+                        break;
+                }
+            });
+
+        </script>
+    </body>
+</html>
